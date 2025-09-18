@@ -2,15 +2,26 @@ import random
 
 play_again = True
 
-while play_again:
-
-    print("Welcome to the Number Guesser!!")
-    print("I'm thinking of a number bettwen 1 and 100.")
-    print("You have to guess this number. \n")
-
-    random_number = random.randint(1, 100)
-
-
+def ask_play_again():
+        again = input("Do you want to play again? ")
+        if again == "yes":
+            return True
+        else:
+            print("Ending Game")
+            return False
+def get_guess():
+    while True:
+        raw_input = input("Guess a number: ")
+        if raw_input == "exit":
+            print("Exiting Game")
+            exit()
+        try:
+            guessed_number = int(raw_input)
+            return guessed_number
+        except ValueError:
+            print("Please enter a valid number")
+def difficulty():
+    
     difficulty_level = str(input("Please select a difficulty level: \n" \
                         "1. Easy (10 chances)\n" \
                         "2. Medium (5 chances) \n" \
@@ -29,22 +40,13 @@ while play_again:
     while True:
         if difficulty_level in game_state:
             chances = game_state[difficulty_level]
-            break
+            return chances
         else: 
             print("Please pick a valid option")
             difficulty_level = str(input("Please select a difficulty level (easy/medium/hard): "))
-
+def main_loop(chances):
     while chances > 0:
-        while True:
-                raw_input = input("Guess a number: ")
-                if raw_input == "exit":
-                    print("Exiting the program")
-                    exit()
-                try:
-                    guessed_number = int(raw_input)
-                    break
-                except:
-                    print("Please enter a valid number")
+        guessed_number = get_guess()
             
         if guessed_number != random_number:
             if guessed_number > random_number:
@@ -54,21 +56,25 @@ while play_again:
             chances -= 1
         else:
             print("Well Done")
-            again = input("Do you want to play again? ")
-            if again == "yes":
-                play_again = True
-                break
-            else:
-                play_again = False
-                print("Ending Game")
-                break
+            return ask_play_again()
 
     if chances == 0:
         print("Sorry, you lose!")
-        again = input("Do you want to play again? ")
-        if again == "yes":
-            play_again = True
-        else:
-            play_again = False
-            print("Ending Game")
-            break
+        return ask_play_again()
+
+
+while play_again:
+
+    print("Welcome to the Number Guesser!!")
+    print("I'm thinking of a number bettwen 1 and 100.")
+    print("You have to guess this number. \n")
+
+    random_number = random.randint(1, 100)
+
+
+    chances = int(difficulty())
+    play_again = main_loop(chances)
+
+
+    
+
