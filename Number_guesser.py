@@ -2,6 +2,7 @@ import random
 
 play_again = True
 
+
 def ask_play_again():
         again = input("Do you want to play again? ")
         if again == "yes":
@@ -45,6 +46,7 @@ def difficulty():
             print("Please pick a valid option")
             difficulty_level = str(input("Please select a difficulty level (easy/medium/hard): "))
 def main_loop(chances):
+    attempts = 0
     while chances > 0:
         guessed_number = get_guess()
             
@@ -54,8 +56,9 @@ def main_loop(chances):
             elif guessed_number < random_number:
                 print(f"Wrong Number, the number is more than {guessed_number}")
             chances -= 1
+            attempts += 1
         else:
-            print("Well Done")
+            print(f"Well Done, you guessed the number in {attempts} attempts")
             return ask_play_again()
 
     if chances == 0:
